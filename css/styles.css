@@ -14,4 +14,9 @@ body {
 
 .gallery-item {
   width: calc((100% - 48px) / 3);
+  cursor: pointer;
+}
+
+.gallery-link {
+  pointer-events: none;
 }
