@@ -74,14 +74,25 @@ const galleryElements = images
 
 gallery.insertAdjacentHTML("beforeend", galleryElements);
 
-const galleryImgs = document.querySelectorAll(".gallery-image");
+let instance = null;
 
-galleryImgs.forEach((image) => {
-  image.addEventListener("click", (event) => {
-    event.preventDefault();
-    const originalUrl = event.currentTarget.dataset.source;
-    const instance = basicLightbox.create(`
+gallery.addEventListener("click", (event) => {
+  event.preventDefault();
+  const target = event.target;
+  if (target.nodeName === "IMG") {
+    const originalUrl = target.dataset.source;
+    console.log(originalUrl);
+    instance = basicLightbox.create(`
     <img src="${originalUrl}">`);
     instance.show();
-  });
+    document.addEventListener("keydown", handleKeyPress);
+  }
 });
+
+function handleKeyPress(event) {
+  if (event.key === "Escape" && instance !== null) {
+    instance.close();
+    instance = null;
+    document.removeEventListener("keydown", handleKeyPress);
+  }
+}
