@@ -73,3 +73,15 @@ const galleryElements = images
   .join("");
 
 gallery.insertAdjacentHTML("beforeend", galleryElements);
+
+const galleryImgs = document.querySelectorAll(".gallery-image");
+
+galleryImgs.forEach((image) => {
+  image.addEventListener("click", (event) => {
+    event.preventDefault();
+    const originalUrl = event.currentTarget.dataset.source;
+    const instance = basicLightbox.create(`
+    <img src="${originalUrl}">`);
+    instance.show();
+  });
+});
