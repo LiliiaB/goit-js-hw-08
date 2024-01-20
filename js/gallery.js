@@ -82,17 +82,24 @@ gallery.addEventListener("click", (event) => {
   if (target.nodeName === "IMG") {
     const originalUrl = target.dataset.source;
     console.log(originalUrl);
-    instance = basicLightbox.create(`
-    <img src="${originalUrl}">`);
+    instance = basicLightbox.create(
+      `
+    <img src="${originalUrl}">`,
+      {
+        onShow: () => {
+          document.addEventListener("keydown", handleKeyPress);
+        },
+        onClose: () => {
+          document.removeEventListener("keydown", handleKeyPress);
+        },
+      }
+    );
     instance.show();
-    document.addEventListener("keydown", handleKeyPress);
   }
 });
 
 function handleKeyPress(event) {
   if (event.key === "Escape" && instance !== null) {
     instance.close();
-    instance = null;
-    document.removeEventListener("keydown", handleKeyPress);
   }
 }
